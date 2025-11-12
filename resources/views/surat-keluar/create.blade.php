@@ -21,26 +21,29 @@
                             @enderror
                         </div>
 
+
                         <div class="mb-4">
-                            <label for="nama" class="block text-sm font-medium text-white mb-2">Nama Pembuat</label>
-                            <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
-                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama') border-red-500 @enderror">
-                            @error('nama')
+                            <label for="tanggal_surat" class="block text-sm font-medium text-white mb-2">Tanggal surat</label>
+                            <input type="date" name="tanggal_surat" id="tanggal_surat" value="{{ old('tanggal_surat') }}"
+                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_surat') border-red-500 @enderror">
+                            @error('tanggal_surat')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="tanggal_keluar" class="block text-sm font-medium text-white mb-2">Tanggal keluar</label>
+                            <input type="date" name="tanggal_keluar" id="tanggal_keluar" value="{{ old('tanggal_keluar') }}"
+                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_keluar') border-red-500 @enderror">
+                            @error('tanggal_keluar')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-4">
-                            <label for="jenis" class="block text-sm font-medium text-white mb-2">Jenis Surat</label>
-                            <select name="jenis" id="jenis"
-                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('jenis') border-red-500 @enderror">
-                                <option value="">Pilih Jenis Surat</option>
-                                <option value="Undangan" {{ old('jenis') == 'Undangan' ? 'selected' : '' }}>Undangan</option>
-                                <option value="Pemberitahuan" {{ old('jenis') == 'Pemberitahuan' ? 'selected' : '' }}>Pemberitahuan</option>
-                                <option value="Permohonan" {{ old('jenis') == 'Permohonan' ? 'selected' : '' }}>Permohonan</option>
-                                <option value="Lainnya" {{ old('jenis') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                            @error('jenis')
+                            <label for="perihal" class="block text-sm font-medium text-white mb-2">Perihal</label>
+                            <input type="text" name="perihal" id="perihal" value="{{ old('perihal') }}"
+                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('perihal') border-red-500 @enderror">
+                            @error('perihal')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -55,19 +58,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="perihal" class="block text-sm font-medium text-white mb-2">Perihal</label>
-                            <textarea name="perihal" id="perihal" rows="4"
-                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('perihal') border-red-500 @enderror">{{ old('perihal') }}</textarea>
-                            @error('perihal')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="tanggal" class="block text-sm font-medium text-white mb-2">Tanggal</label>
-                            <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal') }}"
-                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal') border-red-500 @enderror">
-                            @error('tanggal')
+                            <label for="keterangan" class="block text-sm font-medium text-white mb-2">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" rows="4"
+                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('keterangan') border-red-500 @enderror">{{ old('keterangan') }}</textarea>
+                            @error('keterangan')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

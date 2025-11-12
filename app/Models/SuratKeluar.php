@@ -14,11 +14,11 @@ class SuratKeluar extends Model
 
     protected $fillable = [
         'nomor',
-        'nama',
-        'jenis',
+        'tanggal_surat',
+        'tanggal_keluar',
         'perihal',
-        'tanggal',
         'tujuan',
+        'keterangan',
         'file_path',
         'user_id',
     ];

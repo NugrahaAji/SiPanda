@@ -26,10 +26,11 @@
                                 <thead class="bg-zinc-800">
                                     <tr>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nomor</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Progja</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Perihal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Pengirim</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Perihal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tujuan</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">keterangan</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
@@ -37,10 +38,11 @@
                                     @foreach($suratMasuk as $surat)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->nomor }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->jenis }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->nama }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">{{ Str::limit($surat->perihal, 50) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->tanggal->format('d/m/Y') }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->pengirim }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->tanggal_masuk->format('d/m/Y') }}</td>
+                                            <td class="px-6 py-4 text-sm text-white">{{ ($surat->perihal) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->tujuan }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->keterangan }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 flex items-center gap-4">
                                                 <a href="{{ route('surat-masuk.show', $surat) }}" class="text-blue-600 hover:text-blue-900"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.275 15.296C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296C4.972 6.5 7.818 4 12 4s7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20s-7.028-2.5-8.725-4.704Z"/><path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z"/></g></svg></a>
                                                 <a href="{{ route('surat-masuk.edit', $surat) }}" class="text-yellow-600 hover:text-yellow-900"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg></a>

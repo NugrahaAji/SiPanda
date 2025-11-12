@@ -14,16 +14,17 @@ class SuratMasuk extends Model
 
     protected $fillable = [
         'nomor',
-        'nama',
-        'jenis',
+        'pengirim',
+        'tanggal_masuk',
         'perihal',
-        'tanggal',
+        'tujuan',
+        'keterangan',
         'file_path',
         'user_id',
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal_masuk' => 'date',
     ];
 
     public function user(): BelongsTo

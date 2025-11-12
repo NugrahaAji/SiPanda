@@ -23,42 +23,43 @@
 
                         <div class="mb-4">
                             <label for="nama" class="block text-sm font-medium text-white mb-2">Nama Pengirim</label>
-                            <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
-                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama') border-red-500 @enderror">
-                            @error('nama')
+                            <input type="text" name="pengirim" id="pengirim" value="{{ old('pengirim') }}"
+                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('pengirim') border-red-500 @enderror">
+                            @error('pengirim')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-4">
-                            <label for="jenis" class="block text-sm font-medium text-white mb-2">Jenis Surat</label>
-                            <select name="jenis" id="jenis"
-                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('jenis') border-red-500 @enderror">
-                                <option value="">Pilih Jenis Surat</option>
-                                <option value="Undangan" {{ old('jenis') == 'Undangan' ? 'selected' : '' }}>Undangan</option>
-                                <option value="Pemberitahuan" {{ old('jenis') == 'Pemberitahuan' ? 'selected' : '' }}>Pemberitahuan</option>
-                                <option value="Permohonan" {{ old('jenis') == 'Permohonan' ? 'selected' : '' }}>Permohonan</option>
-                                <option value="Lainnya" {{ old('jenis') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                            @error('jenis')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="perihal" class="block text-sm font-medium text-white mb-2">Perihal</label>
-                            <textarea name="perihal" id="perihal" rows="4"
-                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('perihal') border-red-500 @enderror">{{ old('perihal') }}</textarea>
+                            <label for="nama" class="block text-sm font-medium text-white mb-2">Perihal</label>
+                            <input type="text" name="perihal" id="perihal" value="{{ old('perihal') }}"
+                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('perihal') border-red-500 @enderror">
                             @error('perihal')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="nama" class="block text-sm font-medium text-white mb-2">Tujuan</label>
+                            <input type="text" name="tujuan" id="tujuan" value="{{ old('tujuan') }}"
+                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tujuan') border-red-500 @enderror">
+                            @error('tujuan')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="nama" class="block text-sm font-medium text-white mb-2">Keterangan</label>
+                            <input type="text" name="keterangan" id="keterangan" value="{{ old('keterangan') }}"
+                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('keterangan') border-red-500 @enderror">
+                            @error('keterangan')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-4">
                             <label for="tanggal" class="block text-sm font-medium text-white mb-2">Tanggal</label>
-                            <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal') }}"
-                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal') border-red-500 @enderror">
-                            @error('tanggal')
+                            <input type="date" name="tanggal_masuk" id="tanggal_masuk" value="{{ old('tanggal_masuk') }}"
+                                class="bg-black w-full text-white rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_masuk') border-red-500 @enderror">
+                            @error('tanggal_masuk')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

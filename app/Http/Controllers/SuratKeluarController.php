@@ -25,12 +25,12 @@ class SuratKeluarController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nomor' => 'required|string|max:255|unique:surat_keluar,nomor',
-            'nama' => 'required|string|max:255',
-            'jenis' => 'required|in:Undangan,Pemberitahuan,Permohonan,Lainnya',
-            'perihal' => 'required|string',
-            'tanggal' => 'required|date',
+            'nomor' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'tanggal_keluar' => 'required|date',
+            'perihal' => 'required|string|max:255',
             'tujuan' => 'required|string|max:255',
+            'keterangan' => 'required|string|max:500',
             'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
@@ -63,12 +63,12 @@ class SuratKeluarController extends Controller
         $this->authorize('update', $suratKeluar);
 
         $validated = $request->validate([
-            'nomor' => 'required|string|max:255|unique:surat_keluar,nomor,' . $suratKeluar->id,
-            'nama' => 'required|string|max:255',
-            'jenis' => 'required|in:Undangan,Pemberitahuan,Permohonan,Lainnya',
-            'perihal' => 'required|string',
-            'tanggal' => 'required|date',
+            'nomor' => 'required|string|max:255' . $suratKeluar->id,
+            'tanggal_masuk' => 'required|date',
+            'tanggal_keluar' => 'required|date',
+            'perihal' => 'required|string|max:255',
             'tujuan' => 'required|string|max:255',
+            'keterangan' => 'required|string|max:500',
             'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 

@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('surat_keluar', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor')->unique();
-            $table->string('nama');
-            $table->enum('jenis', ['Undangan', 'Pemberitahuan', 'Permohonan', 'Lainnya']);
-            $table->text('perihal');
-            $table->date('tanggal');
+            $table->string('nomor');
+            $table->date('tanggal_surat');
+            $table->date('tanggal_keluar');
+            $table->string('perihal');
             $table->string('tujuan');
-            $table->string('file_path')->nullable();
+            $table->string('keterangan');
+            $table->string('file_path'  )->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -11,7 +11,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-[1440px] mx-auto sm:px-6 lg:px-8">
             @if(session('success'))
                 <div class="bg-green-800/40 border border-green-400/20 text-green-500 px-4 py-3 rounded relative mb-4" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
@@ -25,7 +25,7 @@
                             <table class="min-w-full divide-y divide-gray-600 rounded-lg">
                                 <thead class="bg-zinc-800">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nomor</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider max-w-[200px]">Nomor</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Pengirim</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tanggal</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Perihal</th>
@@ -37,7 +37,7 @@
                                 <tbody class="bg-zinc-900 divide-y divide-gray-600">
                                     @foreach($suratMasuk as $surat)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->nomor }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white max-w-[200px] truncate" title="{{ $surat->nomor }}">{{ $surat->nomor }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->pengirim }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->tanggal_masuk->format('d/m/Y') }}</td>
                                             <td class="px-6 py-4 text-sm text-white">{{ ($surat->perihal) }}</td>

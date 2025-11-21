@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('tujuan');
             $table->string('keterangan');
             $table->string('file_path')->nullable();
+            $table->string('tipe_surat')->default('masuk');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-[1440px] mx-auto sm:px-6 lg:px-8">
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <!-- Surat Masuk Card -->
@@ -65,28 +65,66 @@
 
                     @if($arsipList->count() > 0)
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
+                            <table class="min-w-full divide-y divide-gray-600 rounded-lg">
+                                <thead class="bg-zinc-800">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nomor</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perihal</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nomor</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis Surat</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Perihal</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tujuan</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Keterangan</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-zinc-900 divide-y divide-gray-200">
+
+                                <tbody class="bg-zinc-900 divide-y divide-gray-600">
                                     @foreach($arsipList as $arsip)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $arsip->jenis }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $arsip->nomor }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $arsip->nama }}</td>
-                                            <td class="px-6 py-4 text-sm text-white">{{ Str::limit($arsip->perihal, 50) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $arsip->tanggal->format('d/m/Y') }}</td>
+                                            <!-- Nomor -->
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white max-w-[200px] truncate"
+                                                title="{{ $arsip->nomor }}">
+                                                {{ $arsip->nomor }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white max-w-[200px] truncate"
+                                                title="{{ $arsip->nomor }}">
+                                                {{ $arsip->tipe_surat }}
+                                            </td>
+
+                                            <!-- Tanggal -->
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                @if(isset($arsip->tanggal_surat))
+                                                    {{ \Carbon\Carbon::parse($arsip->tanggal_surat)->format('d/m/Y') }}
+                                                @elseif(isset($arsip->tanggal_keluar))
+                                                    {{ \Carbon\Carbon::parse($arsip->tanggal_keluar)->format('d/m/Y') }}
+                                                @elseif(isset($arsip->tanggal_masuk))
+                                                    {{ \Carbon\Carbon::parse($arsip->tanggal_masuk)->format('d/m/Y') }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+
+                                            <!-- Perihal -->
+                                            <td class="px-6 py-4 text-sm text-white">
+                                                {{ Str::limit($arsip->perihal, 50) }}
+                                            </td>
+
+                                            <!-- Tujuan -->
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                {{ $arsip->tujuan ?? '-' }}
+                                            </td>
+
+                                            <!-- Keterangan -->
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                {{ $arsip->keterangan ?? '-' }}
+                                            </td>
+
+                                            <!-- Aksi -->
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                @if($arsip->file_path)
-                                                    <a href="{{ Storage::url($arsip->file_path) }}" target="_blank" class="text-blue-600 hover:text-blue-900">Lihat File</a>
+                                                @if(isset($arsip->file_path) && $arsip->file_path)
+                                                    <a href="{{ Storage::url($arsip->file_path) }}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                        Lihat File
+                                                    </a>
                                                 @else
                                                     <span class="text-gray-400">Tidak ada file</span>
                                                 @endif
@@ -94,8 +132,10 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+
                             </table>
                         </div>
+
                     @else
                         <div class="text-center py-8">
                             <p class="text-gray-500">Belum ada arsip</p>
@@ -103,6 +143,7 @@
                     @endif
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>

@@ -15,12 +15,14 @@ class DashboardController extends Controller
 
         $suratMasukCount = SuratMasuk::where('user_id', $user->id)->count();
         $suratKeluarCount = SuratKeluar::where('user_id', $user->id)->count();
-        $arsipCount = Arsip::where('user_id', $user->id)->count();
+        $arsipCount = $suratMasukCount + $suratKeluarCount;
 
-        $arsipList = Arsip::where('user_id', $user->id)
-            ->latest()
-            ->take(10)
-            ->get();
+        // Ambil 10 surat masuk dan keluar terbaru berdasarkan timestamp
+        $suratMasukTerbaru = SuratMasuk::where('user_id', $user->id)->latest()->take(10)->get();
+        $suratKeluarTerbaru = SuratKeluar::where('user_id', $user->id)->latest()->take(10)->get();
+
+        // Gabungkan dan urutkan lagi berdasarkan waktu
+        $arsipList = $suratMasukTerbaru->concat($suratKeluarTerbaru)->sortByDesc('created_at')->take(10);
 
         return view('dashboard', compact(
             'suratMasukCount',

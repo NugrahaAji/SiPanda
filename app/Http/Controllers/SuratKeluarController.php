@@ -12,9 +12,38 @@ class SuratKeluarController extends Controller
     {
         $suratKeluar = SuratKeluar::where('user_id', auth()->id())
             ->latest()
+            ->get();
+
+        // Manipulasi data untuk tab arus
+        $grouped = $suratKeluar->groupBy('nomor');
+        $arusSurat = collect();
+        foreach ($grouped as $nomor => $items) {
+            $count = $items->count();
+            $first = $items->first();
+            $nomorDisplay = $count > 1 ? preg_replace('/^(\d+)/', '$1(' . $count . ')', $nomor) : $nomor;
+            $perihal = $items->pluck('perihal')->unique()->implode(', ');
+            $tujuan = $items->pluck('tujuan')->unique()->implode(', ');
+            $keterangan = $items->pluck('keterangan')->unique()->implode(', ');
+            $arusSurat->push((object) [
+                'nomor' => $nomorDisplay,
+                'tanggal_surat' => $first->tanggal_surat,
+                'tanggal_keluar' => $first->tanggal_keluar,
+                'perihal' => $perihal,
+                'tujuan' => $tujuan,
+                'keterangan' => $keterangan,
+                'id' => $first->id,
+            ]);
+        }
+
+        // Untuk tab daftar tetap pakai paginate
+        $suratKeluarPaginate = SuratKeluar::where('user_id', auth()->id())
+            ->latest()
             ->paginate(10);
 
-        return view('surat-keluar.index', compact('suratKeluar'));
+        return view('surat-keluar.index', [
+            'suratKeluar' => $suratKeluarPaginate,
+            'arusSurat' => $arusSurat,
+        ]);
     }
 
     public function create()
@@ -26,6 +55,7 @@ class SuratKeluarController extends Controller
     {
         $validated = $request->validate([
             'nomor' => 'required|string|max:255',
+            'progja' => 'required|string|max:255',
             'tanggal_surat' => 'required|date',
             'tanggal_keluar' => 'required|date',
             'perihal' => 'required|string|max:255',
@@ -35,6 +65,7 @@ class SuratKeluarController extends Controller
         ]);
 
         $validated['user_id'] = auth()->id();
+        $validated['tipe_surat'] = 'keluar';
 
         if ($request->hasFile('file')) {
             $validated['file_path'] = $request->file('file')->store('surat-keluar', 'public');
@@ -63,8 +94,9 @@ class SuratKeluarController extends Controller
         $this->authorize('update', $suratKeluar);
 
         $validated = $request->validate([
-            'nomor' => 'required|string|max:255' . $suratKeluar->id,
-            'tanggal_masuk' => 'required|date',
+            'nomor' => 'required|string|max:255',
+            'progja' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
             'tanggal_keluar' => 'required|date',
             'perihal' => 'required|string|max:255',
             'tujuan' => 'required|string|max:255',

@@ -11,12 +11,14 @@ return new class extends Migration
         Schema::create('surat_keluar', function (Blueprint $table) {
             $table->id();
             $table->string('nomor');
+            $table->string('progja');
             $table->date('tanggal_surat');
             $table->date('tanggal_keluar');
             $table->string('perihal');
             $table->string('tujuan');
             $table->string('keterangan');
-            $table->string('file_path'  )->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('tipe_surat')->default('keluar');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

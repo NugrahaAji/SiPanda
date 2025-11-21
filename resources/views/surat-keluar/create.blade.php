@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white/80 leading-tight">
             {{ __('Tambah Surat Keluar') }}
         </h2>
     </x-slot>
@@ -17,6 +17,14 @@
                             <input type="text" name="nomor" id="nomor" value="{{ old('nomor') }}"
                                 class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nomor') border-red-500 @enderror">
                             @error('nomor')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="progja" class="block text-sm font-medium text-white mb-2">Nama Progja</label>
+                            <input type="text" name="progja" id="progja" value="{{ old('progja') }}"
+                                class="w-full text-white bg-black rounded-md border-zinc-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('progja') border-red-500 @enderror">
+                            @error('progja')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
+use App\Models\SuratMasuk;
 use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
@@ -52,37 +52,32 @@ class SuratMasukController extends Controller
         return view('surat-masuk.show', compact('suratMasuk'));
     }
 
-    public function edit(SuratMasuk $suratMasuk)
+    public function edit(SuratMasuk $surat)
     {
-        $this->authorize('update', $suratMasuk);
-        return view('surat-masuk.edit', compact('suratMasuk'));
+        return view('surat_masuk.edit', compact('surat'));
     }
 
-    public function update(Request $request, SuratMasuk $suratMasuk)
+    public function update(Request $request, SuratMasuk $surat)
     {
-        $this->authorize('update', $suratMasuk);
-
-        $validated = $request->validate([
-            'nomor' => 'required|string|max:255|,nomor,' . $suratMasuk->id,
-            'pengirim' => 'required|string|max:255',
-            'tanggal_masuk' => 'required|date',
-            'perihal' => 'required|string|max:255',
-            'tujuan' => 'required|string|max:255',
-            'keterangan' => 'required|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        $data = $request->validate([
+            'nomor' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'pengirim' => 'nullable|string|max:255',
+            'perihal' => 'nullable|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         if ($request->hasFile('file')) {
-            if ($suratMasuk->file_path) {
-                Storage::disk('public')->delete($suratMasuk->file_path);
+            // hapus file lama jika ada
+            if ($surat->file_path) {
+                Storage::disk('public')->delete($surat->file_path);
             }
-            $validated['file_path'] = $request->file('file')->store('surat-masuk', 'public');
+            $data['file_path'] = $request->file('file')->store('surat_masuk', 'public');
         }
 
-        $suratMasuk->update($validated);
+        $surat->update($data);
 
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil diperbarui.');
+        return redirect()->route('surat-masuk.edit', $surat)->with('success', 'Surat masuk berhasil diperbarui.');
     }
 
     public function destroy($id)

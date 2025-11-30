@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SuratKeluar;
 use Illuminate\Http\Request;
+use App\Models\SuratKeluar;
 use Illuminate\Support\Facades\Storage;
 
 class SuratKeluarController extends Controller
@@ -53,7 +53,7 @@ class SuratKeluarController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $data = $request->validate([
             'nomor' => 'required|string|max:255',
             'progja' => 'required|string|max:255',
             'tanggal_surat' => 'required|date',
@@ -64,17 +64,17 @@ class SuratKeluarController extends Controller
             'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
-        $validated['user_id'] = auth()->id();
-        $validated['tipe_surat'] = 'keluar';
-
         if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('surat-keluar', 'public');
+            // simpan ke storage/app/public/surat_keluar
+            $data['file_path'] = $request->file('file')->store('surat_keluar', 'public');
         }
 
-        SuratKeluar::create($validated);
+        // pastikan menyertakan user_id agar tidak melanggar NOT NULL constraint
+        $data['user_id'] = auth()->id();
 
-        return redirect()->route('surat-keluar.index')
-            ->with('success', 'Surat keluar berhasil ditambahkan.');
+        SuratKeluar::create($data);
+
+        return redirect()->route('surat-keluar.index')->with('success', 'Surat keluar dibuat.');
     }
 
     public function show(SuratKeluar $suratKeluar)
@@ -83,38 +83,34 @@ class SuratKeluarController extends Controller
         return view('surat-keluar.show', compact('suratKeluar'));
     }
 
-    public function edit(SuratKeluar $suratKeluar)
+    public function edit(SuratKeluar $surat)
     {
-        $this->authorize('update', $suratKeluar);
-        return view('surat-keluar.edit', compact('suratKeluar'));
+        return view('surat-keluar.edit', compact('surat'));
     }
 
-    public function update(Request $request, SuratKeluar $suratKeluar)
+    public function update(Request $request, SuratKeluar $surat)
     {
-        $this->authorize('update', $suratKeluar);
-
-        $validated = $request->validate([
+        $data = $request->validate([
             'nomor' => 'required|string|max:255',
-            'progja' => 'required|string|max:255',
-            'tanggal_surat' => 'required|date',
-            'tanggal_keluar' => 'required|date',
-            'perihal' => 'required|string|max:255',
-            'tujuan' => 'required|string|max:255',
-            'keterangan' => 'required|string|max:500',
+            'progja' => 'nullable|string|max:255',
+            'tanggal_surat' => 'nullable|date',
+            'tanggal_keluar' => 'nullable|date',
+            'perihal' => 'nullable|string|max:500',
+            'tujuan' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
         if ($request->hasFile('file')) {
-            if ($suratKeluar->file_path) {
-                Storage::disk('public')->delete($suratKeluar->file_path);
+            if ($surat->file_path) {
+                Storage::disk('public')->delete($surat->file_path);
             }
-            $validated['file_path'] = $request->file('file')->store('surat-keluar', 'public');
+            $data['file_path'] = $request->file('file')->store('surat_keluar', 'public');
         }
 
-        $suratKeluar->update($validated);
+        $surat->update($data);
 
-        return redirect()->route('surat-keluar.index')
-            ->with('success', 'Surat keluar berhasil diperbarui.');
+        return redirect()->route('surat-keluar.index')->with('success', 'Surat keluar diperbarui.');
     }
 
     public function destroy($id)
@@ -123,6 +119,6 @@ class SuratKeluarController extends Controller
         $suratKeluar->delete();
 
         return redirect()->route('surat-keluar.index')
-            ->with('success', 'Surat masuk berhasil dihapus.');
+            ->with('success', 'Surat keluar berhasil dihapus.');
     }
 }

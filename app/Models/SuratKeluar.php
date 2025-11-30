@@ -25,7 +25,8 @@ class SuratKeluar extends Model
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal_surat' => 'date',
+        'tanggal_keluar' => 'date',
     ];
 
     public function user(): BelongsTo

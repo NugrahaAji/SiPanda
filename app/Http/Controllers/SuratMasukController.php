@@ -54,14 +54,14 @@ class SuratMasukController extends Controller
 
     public function edit(SuratMasuk $surat)
     {
-        return view('surat_masuk.edit', compact('surat'));
+        return view('surat-masuk.edit', compact('surat'));
     }
 
     public function update(Request $request, SuratMasuk $surat)
     {
         $data = $request->validate([
             'nomor' => 'required|string|max:255',
-            'tanggal' => 'required|date',
+            'tanggal_masuk' => 'required|date',
             'pengirim' => 'nullable|string|max:255',
             'perihal' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',

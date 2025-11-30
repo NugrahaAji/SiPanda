@@ -46,10 +46,15 @@ class SuratMasukController extends Controller
             ->with('success', 'Surat masuk berhasil ditambahkan.');
     }
 
-    public function show(SuratMasuk $suratMasuk)
+    public function show(SuratMasuk $surat)
     {
-        $this->authorize('view', $suratMasuk);
-        return view('surat-masuk.show', compact('suratMasuk'));
+        // hanya pemilik yang boleh melihat — ganti sesuai kebutuhan
+        if ($surat->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        // blade mengharapkan $suratMasuk, jadi kirim dengan nama itu
+        return view('surat-masuk.show', ['suratMasuk' => $surat]);
     }
 
     public function edit(SuratMasuk $surat)

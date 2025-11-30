@@ -53,7 +53,10 @@
                                 <div class="mt-2">
                                     <div class="mb-2 flex gap-2">
                                         <a href="{{ $url }}" target="_blank" class="bg-[#ffcc00] text-black font-semibold py-1 px-3 rounded text-sm">Buka di tab baru</a>
-                                        <a href="{{ $url }}" download class="bg-white/10 text-white font-semibold py-1 px-3 rounded text-sm">Unduh</a>
+                                        @php
+                                            $downloadName = \Illuminate\Support\Str::slug(implode('-', array_filter([$suratMasuk->perihal, $suratMasuk->nomor, $suratMasuk->tujuan]))) . '.' . $ext;
+                                        @endphp
+                                        <a href="{{ $url }}" download="{{ $downloadName }}" class="bg-white/10 text-white font-semibold py-1 px-3 rounded text-sm">Unduh</a>
                                     </div>
 
                                     @if($isPdf)

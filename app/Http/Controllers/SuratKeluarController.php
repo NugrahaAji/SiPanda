@@ -77,10 +77,15 @@ class SuratKeluarController extends Controller
         return redirect()->route('surat-keluar.index')->with('success', 'Surat keluar dibuat.');
     }
 
-    public function show(SuratKeluar $suratKeluar)
+    public function show(SuratKeluar $surat)
     {
-        $this->authorize('view', $suratKeluar);
-        return view('surat-keluar.show', compact('suratKeluar'));
+        // izinkan pemilik; bila punya flag admin di user, izinkan juga
+        if ($surat->user_id !== auth()->id() && ! (auth()->user()->is_admin ?? false)) {
+            abort(403, 'Anda tidak berhak melihat surat ini.');
+        }
+
+        // view mengharapkan $suratKeluar
+        return view('surat-keluar.show', ['suratKeluar' => $surat]);
     }
 
     public function edit(SuratKeluar $surat)

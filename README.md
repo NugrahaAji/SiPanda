@@ -63,6 +63,7 @@ DB_PASSWORD=
 
 ```bash
 php artisan migrate
+php artisan db:seed
 ```
 
 ### 6. Link Storage

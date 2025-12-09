@@ -74,20 +74,20 @@
                             </div>
                         @endif
 
-                        <div class="flex items-center justify-end space-x-3 mt-6">
-                            <a href="{{ route('surat-masuk.index') }}" class="bg-red-500 hover:bg-red-500/80 text-white font-bold py-2 px-4 rounded">
-                                Kembali
+                        <div class="flex items-center justify-end space-x-4 mt-6">
+                            <a href="{{ route('surat-masuk.index') }}" class="text-gray-400 hover:text-gray-300" title="Kembali">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 8l-7 7m0 0l7 7m-7-7h16"/></svg>
                             </a>
 
-                            <a href="{{ route('surat-masuk.edit', $suratMasuk) }}" class="bg-[#ffcc00] hover:bg-[#ffcc00]/80 text-black font-bold py-2 px-4 rounded">
-                                Edit
+                            <a href="{{ route('surat-masuk.edit', $suratMasuk) }}" class="text-yellow-600 hover:text-yellow-900" title="Edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg>
                             </a>
 
-                            <form action="{{ route('surat-masuk.destroy', $suratMasuk) }}" method="POST" onsubmit="return confirm('Hapus surat ini?');">
+                            <form action="{{ route('surat-masuk.destroy', $suratMasuk) }}" method="POST" onsubmit="return confirm('Hapus surat ini?');" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-700 hover:bg-red-700/80 text-white font-bold py-2 px-4 rounded">
-                                    Hapus
+                                <button type="submit" class="text-red-600 hover:text-red-900" title="Hapus">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="m19.5 5.5l-.62 10.025c-.158 2.561-.237 3.842-.88 4.763a4 4 0 0 1-1.2 1.128c-.957.584-2.24.584-4.806.584c-2.57 0-3.855 0-4.814-.585a4 4 0 0 1-1.2-1.13c-.642-.922-.72-2.205-.874-4.77L4.5 5.5M3 5.5h18m-4.944 0l-.683-1.408c-.453-.936-.68-1.403-1.071-1.695a2 2 0 0 0-.275-.172C13.594 2 13.074 2 12.035 2c-1.066 0-1.599 0-2.04.234a2 2 0 0 0-.278.18c-.395.303-.616.788-1.058 1.757L8.053 5.5"/></svg>
                                 </button>
                             </form>
                         </div>

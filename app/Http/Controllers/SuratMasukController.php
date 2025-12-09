@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SuratMasuk;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
 {
     public function index()
     {
-        $suratMasuk = SuratMasuk::where('user_id', auth()->id())
-            ->latest()
-            ->paginate(10);
-
-        return view('surat-masuk.index', compact('suratMasuk'));
+        $suratMasuks = SuratMasuk::latest()->paginate(10);
+        return view('surat-masuk.index', compact('suratMasuks'));
     }
 
     public function create()
@@ -25,72 +22,109 @@ class SuratMasukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nomor' => 'required|string|max:255|',
+            'nomor' => 'required|string|max:255',
             'pengirim' => 'required|string|max:255',
-            'tanggal_masuk' => 'required|date',
-            'perihal' => 'required|string|max:255',
+            'perihal' => 'required|string',
             'tujuan' => 'required|string|max:255',
-            'keterangan' => 'required|string|max:500',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'keterangan' => 'nullable|string',
+            'tanggal_masuk' => 'required|date',
+            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048'
         ]);
 
-        $validated['user_id'] = auth()->id();
-
+        // PENTING: Simpan ke disk 'public'
         if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('surat-masuk', 'public');
+            $validated['file'] = $request->file('file')->store('surat-masuk', 'public');
         }
 
         SuratMasuk::create($validated);
 
         return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil ditambahkan.');
+            ->with('success', 'Surat masuk berhasil ditambahkan');
     }
 
-    public function show(SuratMasuk $surat)
+    public function show($id)
     {
-        // hanya pemilik yang boleh melihat — ganti sesuai kebutuhan
-        if ($surat->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        // blade mengharapkan $suratMasuk, jadi kirim dengan nama itu
-        return view('surat-masuk.show', ['suratMasuk' => $surat]);
+        $suratMasuk = SuratMasuk::findOrFail($id);
+        return view('surat-masuk.show', compact('suratMasuk'));
     }
 
-    public function edit(SuratMasuk $surat)
+    public function edit($id)
     {
-        return view('surat-masuk.edit', compact('surat'));
+        $suratMasuk = SuratMasuk::findOrFail($id);
+        return view('surat-masuk.edit', compact('suratMasuk'));
     }
 
-    public function update(Request $request, SuratMasuk $surat)
+    public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $validated = $request->validate([
             'nomor' => 'required|string|max:255',
+            'pengirim' => 'required|string|max:255',
+            'perihal' => 'required|string',
+            'tujuan' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
             'tanggal_masuk' => 'required|date',
-            'pengirim' => 'nullable|string|max:255',
-            'perihal' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048'
         ]);
 
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        // PENTING: Simpan ke disk 'public' dan hapus file lama
         if ($request->hasFile('file')) {
-            // hapus file lama jika ada
-            if ($surat->file_path) {
-                Storage::disk('public')->delete($surat->file_path);
+            // Hapus file lama jika ada
+            if ($suratMasuk->file && Storage::disk('public')->exists($suratMasuk->file)) {
+                Storage::disk('public')->delete($suratMasuk->file);
             }
-            $data['file_path'] = $request->file('file')->store('surat_masuk', 'public');
+
+            $validated['file'] = $request->file('file')->store('surat-masuk', 'public');
         }
 
-        $surat->update($data);
+        $suratMasuk->update($validated);
 
-        return redirect()->route('surat-masuk.edit', $surat)->with('success', 'Surat masuk berhasil diperbarui.');
+        return redirect()->route('surat-masuk.index')
+            ->with('success', 'Surat masuk berhasil diupdate');
     }
 
     public function destroy($id)
     {
         $suratMasuk = SuratMasuk::findOrFail($id);
+
+        // Hapus file jika ada
+        if ($suratMasuk->file && Storage::disk('public')->exists($suratMasuk->file)) {
+            Storage::disk('public')->delete($suratMasuk->file);
+        }
+
         $suratMasuk->delete();
 
         return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil dihapus.');
+            ->with('success', 'Surat masuk berhasil dihapus');
+    }
+
+    // Method untuk download file
+    public function download($id)
+    {
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        if (!$suratMasuk->file || !Storage::disk('public')->exists($suratMasuk->file)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return Storage::disk('public')->download($suratMasuk->file);
+    }
+
+    // Method untuk view file di browser (untuk PDF)
+    public function viewFile($id)
+    {
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        if (!$suratMasuk->file || !Storage::disk('public')->exists($suratMasuk->file)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        $filePath = Storage::disk('public')->path($suratMasuk->file);
+        $mimeType = Storage::disk('public')->mimeType($suratMasuk->file);
+
+        return response()->file($filePath, [
+            'Content-Type' => $mimeType,
+        ]);
     }
 }

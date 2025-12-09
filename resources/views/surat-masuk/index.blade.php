@@ -20,7 +20,7 @@
 
             <div class="bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    @if($suratMasuk->count() > 0)
+                    @if($suratMasuks->count() > 0)
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-600 rounded-lg">
                                 <thead class="bg-zinc-800">
@@ -35,7 +35,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-zinc-900 divide-y divide-gray-600">
-                                    @foreach($suratMasuk as $surat)
+                                    @foreach($suratMasuks as $surat)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-white max-w-[200px] truncate" title="{{ $surat->nomor }}">{{ $surat->nomor }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $surat->pengirim }}</td>
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="mt-4">
-                            {{ $suratMasuk->links() }}
+                            {{ $suratMasuks->links() }}
                         </div>
                     @else
                         <div class="text-center py-8">

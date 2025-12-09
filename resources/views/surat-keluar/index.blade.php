@@ -11,7 +11,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-[1440px] mx-auto sm:px-6 lg:px-8">
             @if(session('success'))
                 <div class="bg-green-800/40 border border-green-400/20 text-green-500 px-4 py-3 rounded relative mb-4" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
@@ -49,7 +49,7 @@
                                 <table class="min-w-full divide-y divide-gray-600">
                                     <thead class="bg-zinc-800">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Nomor</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Nomor Surat</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Tanggal Surat</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Tanggal Keluar</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Perihal</th>
@@ -119,7 +119,8 @@
                                 <table class="min-w-full divide-y divide-gray-600">
                                     <thead class="bg-zinc-800">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Nomor</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">No</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Nomor Surat</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Tanggal Surat</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Tanggal Keluar</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase">Perihal</th>
@@ -130,6 +131,7 @@
                                     <tbody class="divide-y divide-gray-600">
                                         @foreach($arusSurat as $item)
                                             <tr class="hover:bg-zinc-800/50">
+                                                <td class="px-6 py-4 text-sm text-white max-w-[200px] truncate">{{$loop->iteration}}</td>
                                                 <td class="px-6 py-4 text-sm text-white max-w-[200px] truncate" title="{{ $item->nomor }}">{{ $item->nomor }}</td>
                                                 <td class="px-6 py-4 text-sm text-white whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal_surat)->format('d/m/Y') }}</td>
                                                 <td class="px-6 py-4 text-sm text-white whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal_keluar)->format('d/m/Y') }}</td>

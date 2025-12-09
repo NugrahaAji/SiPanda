@@ -13,11 +13,10 @@ class SuratKeluarController extends Controller
         $suratKeluar = SuratKeluar::where('user_id', auth()->id())
             ->latest()
             ->get();
-
-        // Manipulasi data untuk tab arus
-        $grouped = $suratKeluar->groupBy('nomor');
+            // Manipulasi data untuk tab arus
+        $groupNomor = $suratKeluar->groupBy('nomor');
         $arusSurat = collect();
-        foreach ($grouped as $nomor => $items) {
+        foreach ($groupNomor as $nomor => $items) {
             $count = $items->count();
             $first = $items->first();
             $nomorDisplay = $count > 1 ? preg_replace('/^(\d+)/', '$1(' . $count . ')', $nomor) : $nomor;

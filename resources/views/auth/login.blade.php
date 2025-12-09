@@ -33,12 +33,9 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-zinc-400  hover:text-[#ededed] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ffcc00] " href="{{ route('password.request') }}">
-                    {{ __('Lupa kata sandi?') }}
+                <a class="underline text-sm text-zinc-400  hover:text-[#ededed] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ffcc00] " href="{{ route('register') }}">
+                    {{ __('Belum punya akun?') }}
                 </a>
-            @endif
-
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>

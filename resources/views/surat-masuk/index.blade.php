@@ -25,7 +25,7 @@
                             <table class="min-w-full divide-y divide-gray-600 rounded-lg">
                                 <thead class="bg-zinc-800">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider max-w-[200px]">Nomor</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider max-w-[200px]">Nomor Surat</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Pengirim</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Tanggal</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Perihal</th>

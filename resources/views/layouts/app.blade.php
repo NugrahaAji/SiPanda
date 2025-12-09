@@ -10,7 +10,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -22,6 +22,9 @@
             .flatpickr-weekday { color: #cbd5e1 !important; }
             .flatpickr-months .flatpickr-month .flatpickr-months .flatpickr-current-month { color: #e6eef8 !important; }
             .flatpickr-input[readonly] { cursor: pointer; }
+            *{
+                font-family: 'Instrument Sans', sans-serif;
+            }
         </style>
     </head>
     <body class="font-sans antialiased">
